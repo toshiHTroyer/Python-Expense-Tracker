@@ -1,0 +1,17 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+    background-color: #f4f4f9;
+}
+
+input, textarea, button {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    display: block;
+    width: 100%;
+}
+
+button {
+    cursor: pointer;
+}
