@@ -6,7 +6,7 @@ A little exercise to build a web application following an agile development proc
 
 A web application that keeps track of a user’s past expenses and current budget, allowing users to add, edit, delete, and search for expenses.
 
-## User stories
+## User stories 
 
 [User Stories](https://github.com/software-students-fall2024/2-web-app-now-you-re-unemployed/issues)
 
