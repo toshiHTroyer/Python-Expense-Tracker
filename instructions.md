@@ -5,7 +5,7 @@ A little exercise to build a web application following an agile process.
 ## Technology stack
 
 We will use a Python-centric web application technology stack, consisting of:
-
+    
 - HTML & CSS for the front-end
 - A Python back-end using [flask](https://flask.palletsprojects.com/en/2.2.x/)
 - A MongoDB database connected to the Python back-end using [pymongo](https://pymongo.readthedocs.io/en/stable/)
