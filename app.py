@@ -66,16 +66,54 @@ def delete_expense(expense_id):
 #Search for an expense
 @app.route('/search', methods=['GET'])
 def search():
-    query = request.args.get('query')
-    
-    #Validate the query
-    if not query:
-        return render_template('search.html', expenses=[], error="Please enter a search term.")
-    
-    #Perform the search
-    expenses = expenseCollection.find({'$text': {'$search': query}})
-    
-    return render_template('search.html', expenses=expenses)
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+    min_amount = request.args.get('min_amount')
+    max_amount = request.args.get('max_amount')
+
+    query = {}
+    error = None
+
+    # Search by date range
+    if start_date and end_date:
+        try:
+            start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+            end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+
+            if start_date > end_date:
+                error = "The start date must be earlier than or equal to the end date."
+            else:
+                query['date'] = {'$gte': start_date, '$lte': end_date}
+        except ValueError:
+            error = "Invalid date format. Please use YYYY-MM-DD."
+
+    # Search by amount range
+    if min_amount and max_amount:
+        try:
+            min_amount = float(min_amount)
+            max_amount = float(max_amount)
+
+            if min_amount > max_amount:
+                error = "The minimum amount must be less than or equal to the maximum amount."
+            else:
+                query['amount'] = {'$gte': min_amount, '$lte': max_amount}
+        except ValueError:
+            error = "Please provide valid numbers for the amount range."
+
+    # Check if any query was made (date range or amount range)
+    if not (start_date or end_date or min_amount or max_amount):
+        # Avoid showing error on page load when no search is performed
+        return render_template('search.html', expenses=None, error=None)
+
+    # Perform the search if there are no errors
+    if error:
+        return render_template('search.html', expenses=[], error=error)
+
+    # Query MongoDB and convert the cursor to a list
+    expenses = list(expenseCollection.find(query).sort('date', 1))
+
+    # If no expenses found, still pass an empty list to the template
+    return render_template('search.html', expenses=expenses if expenses else [], error=error)
 
 if __name__ == '__main__':
     app.run(debug=True)
