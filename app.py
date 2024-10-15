@@ -66,8 +66,11 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        db.users.insert_one({'username': username, 'password': password})
-        return redirect(url_for('login'))
+        if db.users.find_one({'username': username}):
+            flash('Username already taken, please choose another', 'error')
+        else:
+            db.users.insert_one({'username': username, 'password': password})
+            return redirect(url_for('login'))
     return render_template('register.html')
 
 #Index
