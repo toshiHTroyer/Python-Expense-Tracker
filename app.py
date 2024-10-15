@@ -168,14 +168,11 @@ def search():
     # Perform the search if there are no errors
     if error:
         return render_template('search.html', expenses=[], error=error)
-
-    # Make sure results belong to user
+   
     query.update({'user_id': current_user.id})
     
-    # Query MongoDB and convert the cursor to a list
     expenses = list(expenseCollection.find(query).sort('date', 1))
 
-    # If no expenses found, still pass an empty list to the template
     return render_template('search.html', expenses=expenses if expenses else [], error=error)
 
 @app.route('/dashboard')
