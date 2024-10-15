@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Expense Dashboard</title>
+</head>
+<body>
+    <h1>Expense Dashboard</h1>
+    <section>
+        <h2>Total Expenses</h2>
+        <p>Total: ${{ total_expenses }}</p>
+    </section>
+    <section>
+        <h2>Expenditure for the Past 7 Days</h2>
+        <p>Total Spent: ${{ last_7_days_total }}</p>
+    </section>
+    <section>
+        <h2>Top 5 Biggest Spends</h2>
+        <ul>
+            {% for expense in top_5_expenses %}
+            <li>{{ expense.date.strftime('%Y-%m-%d') }} - {{ expense.category }} - ${{ expense.amount }} - {{ expense.description }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+</body>
+</html>
