@@ -8,6 +8,11 @@
 </head>
 <body>
     <h1>Search Expenses</h1>
+
+        <p>To search your expenses, you can use the date range, the amount range, or both. 
+        Simply fill in the relevant fields and click "Search". If no results match your criteria, 
+        you'll see a message indicating this.</p>
+
         <form method="GET" action="/search">
             <h2>Search by Date Range</h2>
             <label for="start_date">Start Date:</label>
@@ -21,7 +26,6 @@
             <label for="min_amount">Minimum Amount:</label>
             <input type="number" id="min_amount" name="min_amount" step="0.01"
                 {% if request.args.get('min_amount') %}value="{{ request.args.get('min_amount') }}"{% endif %}>
-            <label for="max_amount">Maximum Amount:</label>
             <label for="max_amount">Maximum Amount:</label>
             <input type="number" id="max_amount" name="max_amount" step="0.01"
                 {% if request.args.get('max_amount') %}value="{{ request.args.get('max_amount') }}"{% endif %}>
