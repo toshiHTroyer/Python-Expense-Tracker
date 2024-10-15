@@ -38,8 +38,6 @@ def load_user(user_id):
 # except Exception as e:
 #     print(" * MongoDB connection error:", e)
 
-expenseCollection = db.expenses
-
 #Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -52,6 +50,8 @@ def login():
             return redirect(url_for('index'))
         flash('Invalid username or password', 'error')
     return render_template('login.html')
+
+expenseCollection = db.expenses
 
 #Logout
 @app.route('/logout')
@@ -176,6 +176,7 @@ def search():
 def dashboard():
     # Calculate total expenses
     total_expenses = expenseCollection.aggregate([
+        {"$match": {'user_id': current_user.id}},
         {"$group": {"_id": None, "total": {"$sum": "$amount"}}}
     ])
     total_expenses = total_expenses.next()["total"] if total_expenses.alive else 0
@@ -183,13 +184,13 @@ def dashboard():
     # Calculate expenditure for the past 7 days
     seven_days_ago = datetime.datetime.now() - datetime.timedelta(days=7)
     last_7_days_total = expenseCollection.aggregate([
-        {"$match": {"date": {"$gte": seven_days_ago}}},
+        {"$match": {'user_id': current_user.id, "date": {"$gte": seven_days_ago}}},
         {"$group": {"_id": None, "total": {"$sum": "$amount"}}}
     ])
     last_7_days_total = last_7_days_total.next()["total"] if last_7_days_total.alive else 0
 
     # Get the top 5 biggest spends
-    top_5_expenses = list(expenseCollection.find().sort("amount", -1).limit(5))
+    top_5_expenses = list(expenseCollection.find({'user_id': current_user.id}).sort("amount", -1).limit(5))
 
     # Render the updated dashboard.html
     return render_template('dashboard.html',
