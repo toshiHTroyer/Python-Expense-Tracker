@@ -40,4 +40,6 @@ Follow the link given.
 
 ## Task boards
 
-[Task Board](https://github.com/orgs/software-students-fall2024/projects/42)
+[Task Board - Sprint 1](https://github.com/orgs/software-students-fall2024/projects/42)
+
+[Task Board - Sprint 2](https://github.com/orgs/software-students-fall2024/projects/76)
