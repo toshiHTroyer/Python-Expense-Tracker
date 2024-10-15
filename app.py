@@ -77,5 +77,30 @@ def search():
     
     return render_template('search.html', expenses=expenses)
 
+@app.route('/dashboard')
+def dashboard():
+    # Calculate total expenses
+    total_expenses = expenseCollection.aggregate([
+        {"$group": {"_id": None, "total": {"$sum": "$amount"}}}
+    ])
+    total_expenses = total_expenses.next()["total"] if total_expenses.alive else 0
+
+    # Calculate expenditure for the past 7 days
+    seven_days_ago = datetime.datetime.now() - datetime.timedelta(days=7)
+    last_7_days_total = expenseCollection.aggregate([
+        {"$match": {"date": {"$gte": seven_days_ago}}},
+        {"$group": {"_id": None, "total": {"$sum": "$amount"}}}
+    ])
+    last_7_days_total = last_7_days_total.next()["total"] if last_7_days_total.alive else 0
+
+    # Get the top 5 biggest spends
+    top_5_expenses = list(expenseCollection.find().sort("amount", -1).limit(5))
+
+    # Render the updated dashboard.html
+    return render_template('dashboard.html',
+                           total_expenses=total_expenses,
+                           last_7_days_total=last_7_days_total,
+                           top_5_expenses=top_5_expenses)
+
 if __name__ == '__main__':
     app.run(debug=True)
