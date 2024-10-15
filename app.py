@@ -110,12 +110,15 @@ def edit_expense(expense_id):
     return render_template('editExpense.html', expense=expense)
 
 #Delete an existing expense
-@app.route('/delete/<expense_id>')
+@app.route('/delete/<expense_id>', methods=['GET', 'POST'])
 @login_required
 def delete_expense(expense_id):
-    expenseCollection.delete_one({'_id': ObjectId(expense_id)})
-    return redirect(url_for('index'))
-
+    expense = expenseCollection.find_one({'_id': ObjectId(expense_id)})
+    if request.method == 'POST':
+        expenseCollection.delete_one({'_id': ObjectId(expense_id)})
+        return redirect(url_for('index'))
+    
+    return render_template('deleteExpense.html', expense=expense)
 #Search for an expense
 @app.route('/search', methods=['GET'])
 @login_required
