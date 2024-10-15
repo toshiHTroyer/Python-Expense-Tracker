@@ -15,3 +15,14 @@ input, textarea, button {
 button {
     cursor: pointer;
 }
+
+/* Optional: Styling for links */
+a {
+    color: #007BFF; /* Change to blue */
+    text-decoration: none; /* Remove underline */
+    margin-left: 10px; /* Space between links */
+}
+
+a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
