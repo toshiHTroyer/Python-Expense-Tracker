@@ -177,29 +177,60 @@ def search():
 
 @app.route('/dashboard')
 def dashboard():
-    # Calculate total expenses
-    total_expenses = expenseCollection.aggregate([
-        {"$match": {'user_id': current_user.id}},
+    end_date = request.args.get('end_date')
+    start_date = request.args.get('start_date')
+
+    if not end_date:
+        end_date = datetime.datetime.now()
+    else:
+        end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+    
+    if not start_date:
+        start_date = end_date - datetime.timedelta(days=30)
+    else:
+        start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+
+    # Calculate total expenses 
+    total_expenses_cursor = expenseCollection.aggregate([
+        {"$match": {
+            'user_id': current_user.id,
+            "date": {"$gte": start_date, "$lte": end_date}
+        }},
         {"$group": {"_id": None, "total": {"$sum": "$amount"}}}
     ])
-    total_expenses = total_expenses.next()["total"] if total_expenses.alive else 0
+    total_expenses = total_expenses_cursor.next()["total"] if total_expenses_cursor.alive else 0
+    categories = ["Groceries", "Transportation", "Entertainment", "Healthcare", "Dining", "Rent/Utilities", "Other"]
+    breakdown = {}
+    # Calculate Expense Breakdown
+    for category in categories:
+        category_total_cursor = expenseCollection.aggregate([
+            {"$match": {
+                'user_id': current_user.id,
+                "category": category,
+                "date": {"$gte": start_date, "$lte": end_date}
+            }},
+            {"$group": {"_id": None, "total": {"$sum": "$amount"}}}
+        ])
+        amount = category_total_cursor.next()["total"] if category_total_cursor.alive else 0
+        
+        percentage = (amount / total_expenses * 100) if total_expenses > 0 else 0
+        breakdown[category] = {
+            "amount": amount,
+            "percentage": round(percentage, 2)  
+        }
 
-    # Calculate expenditure for the past 7 days
-    seven_days_ago = datetime.datetime.now() - datetime.timedelta(days=7)
-    last_7_days_total = expenseCollection.aggregate([
-        {"$match": {'user_id': current_user.id, "date": {"$gte": seven_days_ago}}},
-        {"$group": {"_id": None, "total": {"$sum": "$amount"}}}
-    ])
-    last_7_days_total = last_7_days_total.next()["total"] if last_7_days_total.alive else 0
+    # Get the top 5 biggest spends 
+    top_5_expenses = list(expenseCollection.find({
+        'user_id': current_user.id,
+        "date": {"$gte": start_date, "$lte": end_date}
+    }).sort("amount", -1).limit(5))
 
-    # Get the top 5 biggest spends
-    top_5_expenses = list(expenseCollection.find({'user_id': current_user.id}).sort("amount", -1).limit(5))
-
-    # Render the updated dashboard.html
     return render_template('dashboard.html',
                            total_expenses=total_expenses,
-                           last_7_days_total=last_7_days_total,
-                           top_5_expenses=top_5_expenses)
+                           breakdown=breakdown,
+                           top_5_expenses=top_5_expenses,
+                           start_date=start_date.strftime('%Y-%m-%d'),
+                           end_date=end_date.strftime('%Y-%m-%d'))
 
 if __name__ == '__main__':
     app.run(debug=True)
