@@ -4,7 +4,7 @@ A little exercise to build a web application following an agile development proc
 
 ## Product vision statement
 
-A web application that keeps track of a user’s past expenses and current budget, allowing users to add, edit, delete, and search for expenses.
+A web application that keeps track of a user’s past expenses, allowing users to add, edit, delete, and search for expenses, as well as view statistics about their biggest expenses.
 
 ## User stories 
 
