@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Edit Expense</title>
 </head>
 <body>
@@ -12,12 +12,12 @@
         <label for="date">Date:</label>
         <input type="date" id="date" name="date" value="{{ expense.date.strftime('%Y-%m-%d') }}" required><br>
         <select id="category" name="category" required>
-            <option value="Groceries" {% if expense.category == "Groceries" %}selected{% endif %}>Grocery</option>
+            <option value="Groceries" {% if expense.category == "Groceries" %}selected{% endif %}>Groceries</option>
             <option value="Transportation" {% if expense.category == "Transportation" %}selected{% endif %}>Transportation</option>
             <option value="Entertainment" {% if expense.category == "Entertainment" %}selected{% endif %}>Entertainment</option>
-            <option value="Dining" {% if expense.category == "Dining" %}selected{% endif %}>Utilities</option>
+            <option value="Dining" {% if expense.category == "Dining" %}selected{% endif %}>Dining</option>
             <option value="Healthcare" {% if expense.category == "Healthcare" %}selected{% endif %}>Healthcare</option>
-            <option value="Rent/Utilities" {% if expense.category == "Rent/Utilities" %}selected{% endif %}>Rent</option>
+            <option value="Rent/Utilities" {% if expense.category == "Rent/Utilities" %}selected{% endif %}>Rent/Utilities</option>
             <option value="Other" {% if expense.category == "Other" %}selected{% endif %}>Other</option>
         </select><br>
         <label for="amount">Amount:</label>
