@@ -8,13 +8,30 @@
 </head>
 <body>
     <h1>Expense Dashboard</h1>
+    <form method="get" action="/dashboard">
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ start_date }}">
+
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" value="{{ end_date }}">
+
+        <button type="submit">Search</button>
+    </form>
     <section>
         <h2>Total Expenses</h2>
         <p>Total: ${{ total_expenses }}</p>
     </section>
     <section>
-        <h2>Expenditure for the Past 7 Days</h2>
-        <p>Total Spent: ${{ last_7_days_total }}</p>
+        <h2>Expense Breakdown</h2>
+        <ul>
+            <li>Groceries: ${{ breakdown["Groceries"]["amount"] }} ({{ breakdown["Groceries"]["percentage"] }}%)</li>
+            <li>Transportation: ${{ breakdown["Transportation"]["amount"] }} ({{ breakdown["Transportation"]["percentage"] }}%)</li>
+            <li>Entertainment: ${{ breakdown["Entertainment"]["amount"] }} ({{ breakdown["Entertainment"]["percentage"] }}%)</li>
+            <li>Dining: ${{ breakdown["Dining"]["amount"] }} ({{ breakdown["Dining"]["percentage"] }}%)</li>
+            <li>Healthcare: ${{ breakdown["Healthcare"]["amount"] }} ({{ breakdown["Healthcare"]["percentage"] }}%)</li>
+            <li>Rent/Utilities: ${{ breakdown["Rent/Utilities"]["amount"] }} ({{ breakdown["Rent/Utilities"]["percentage"] }}%)</li>
+            <li>Other: ${{ breakdown["Other"]["amount"] }} ({{ breakdown["Other"]["percentage"] }}%)</li>
+        </ul>
     </section>
     <section>
         <h2>Top 5 Biggest Spends</h2>
