@@ -70,6 +70,7 @@ def register():
             flash('Username already taken, please choose another', 'error')
         else:
             db.users.insert_one({'username': username, 'password': password})
+            flash('Successfully registered.')
             return redirect(url_for('login'))
     return render_template('register.html')
 

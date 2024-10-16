@@ -19,7 +19,7 @@
             <option value="Healthcare" {% if expense.category == "Healthcare" %}selected{% endif %}>Healthcare</option>
             <option value="Rent/Utilities" {% if expense.category == "Rent/Utilities" %}selected{% endif %}>Rent/Utilities</option>
             <option value="Other" {% if expense.category == "Other" %}selected{% endif %}>Other</option>
-        </select><br>
+        </select><br><br><br>
         <label for="amount">Amount:</label>
         <input type="number" id="amount" name="amount" value="{{ expense.amount }}" step="0.01" required><br>
         <label for="description">Description:</label>

@@ -16,11 +16,17 @@ button {
     cursor: pointer;
 }
 
-/* Optional: Styling for links */
+#home {
+    text-align: center;
+    font-size: 14px;
+}
+
 a {
     color: #007BFF; /* Change to blue */
-    text-decoration: none; /* Remove underline */
-    margin-left: 10px; /* Space between links */
+}
+
+.spaced {
+    margin-left: 5px;
 }
 
 a:hover {
