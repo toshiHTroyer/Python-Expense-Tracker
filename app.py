@@ -130,6 +130,7 @@ def search():
     end_date = request.args.get('end_date')
     min_amount = request.args.get('min_amount')
     max_amount = request.args.get('max_amount')
+    category = request.args.get('category')
 
     query = {}
     error = None
@@ -159,13 +160,15 @@ def search():
                 query['amount'] = {'$gte': min_amount, '$lte': max_amount}
         except ValueError:
             error = "Please provide valid numbers for the amount range."
+    
+    if category:
+        query['category'] = category
 
-    # Check if any query was made (date range or amount range)
-    if not (start_date or end_date or min_amount or max_amount):
-        # Avoid showing error on page load when no search is performed
+    
+    if not (start_date or end_date or min_amount or max_amount or category):
         return render_template('search.html', expenses=None, error=None)
 
-    # Perform the search if there are no errors
+   
     if error:
         return render_template('search.html', expenses=[], error=error)
    

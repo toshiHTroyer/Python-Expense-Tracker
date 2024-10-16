@@ -9,9 +9,10 @@
 <body>
     <h1>Search Expenses</h1>
 
-        <p>To search your expenses, you can use the date range, the amount range, or both. 
-        Simply fill in the relevant fields and click "Search". If no results match your criteria, 
-        you'll see a message indicating this.</p>
+        <p>To search your expenses, you can use the date range, amount range, category, or any combination of these. 
+        Fill in one or more fields and click "Search". If no results match your criteria, 
+        you'll see a message indicating no results were found.</p>
+     
 
         <form method="GET" action="/search">
             <h2>Search by Date Range</h2>
@@ -33,6 +34,18 @@
                 <input type="number" id="max_amount" name="max_amount" step="0.01"
                     {% if request.args.get('max_amount') %}value="{{ request.args.get('max_amount') }}"{% endif %}>
             </div>
+
+            <h2>Search by Category</h2>
+            <select id="category" name="category">
+                <option value="">--Select Category--</option>
+                <option value="Groceries" {% if request.args.get('category') == "Groceries" %}selected{% endif %}>Groceries</option>
+                <option value="Transportation" {% if request.args.get('category') == "Transportation" %}selected{% endif %}>Transportation</option>
+                <option value="Entertainment" {% if request.args.get('category') == "Entertainment" %}selected{% endif %}>Entertainment</option>
+                <option value="Dining" {% if request.args.get('category') == "Dining" %}selected{% endif %}>Dining</option>
+                <option value="Healthcare" {% if request.args.get('category') == "Healthcare" %}selected{% endif %}>Healthcare</option>
+                <option value="Rent/Utilities" {% if request.args.get('category') == "Rent/Utilities" %}selected{% endif %}>Rent/Utilities</option>
+                <option value="Other" {% if request.args.get('category') == "Other" %}selected{% endif %}>Other</option>
+            </select>
             
             <br><br>
             <button type="submit">Search</button>
