@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Expense Tracker</title>
 </head>
 <body>
     <h1>Expenses</h1>
-    <a href="/add">Add New Expense</a> | <a href="/search">Search Expenses</a> | <a href="/dashboard">View Dashboard</a>  | <a href="/logout">Logout</a>
+    <a href="/add">Add New Expense</a> | <a href="/search">Search Expenses</a> | <a href="/dashboard">View Dashboard</a> | <a href="/logout">Logout</a>
     <ul>
         {% for expense in expenses %}
         <li>{{ expense.date.strftime('%Y-%m-%d') }} - {{ expense.category }} - ${{ expense.amount }} - {{ expense.description }}
