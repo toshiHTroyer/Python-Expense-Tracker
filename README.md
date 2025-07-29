@@ -1,10 +1,9 @@
-# Web Application Exercise
-
-A little exercise to build a web application following an agile development process. See the [instructions](instructions.md) for more detail.
+# Expense Tracker Web App
+This project was developed collaboratively as part of a team assignment for Software Engineering. We followed a structured Agile workflow, including sprints, user stories, standups, and GitHub Projects for task management.
 
 ## Product vision statement
 
-A web application that keeps track of a user’s past expenses, allowing users to add, edit, delete, and search for expenses, as well as view statistics about their biggest expenses.
+A responsive web application for managing personal expenses. Users can add, edit, delete, and search for past expenses while also viewing statistics into their biggest spending categories.
 
 ## User stories 
 
